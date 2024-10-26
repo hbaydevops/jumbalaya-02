@@ -30,7 +30,7 @@ variable "key_name" {
 }
 variable "volume_size" {
   type    = number
-  default = 10
+  default = 30
 }
 variable "force_destroy" {
   type    = bool

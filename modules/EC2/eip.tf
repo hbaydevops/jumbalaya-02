@@ -1,7 +1,8 @@
 # Create an Elastic IP
 resource "aws_eip" "my_eip" {
-  count      = 3  
+ count      = 2
   instance   = aws_instance.servers[count.index].id
+  #instance   = aws_instance.my_ec2
   domain   = "vpc"
 
   tags = merge(var.common_tags, {

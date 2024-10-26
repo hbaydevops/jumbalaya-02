@@ -1,6 +1,6 @@
 aws_region    = "us-east-2"
 instance_type = "t2.medium"
-volume_size = 20
+volume_size = 30
 
 
 common_tags = {
