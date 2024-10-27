@@ -1,5 +1,15 @@
 #!/bin/bash
 
+sudo apt update
+sudo apt install fontconfig openjdk-17-jre
+
+sudo wget -O /usr/share/keyrings/jenkins-keyring.asc \
+  https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
+echo "deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc]" \
+  https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
+  /etc/apt/sources.list.d/jenkins.list > /dev/null
+sudo apt-get update
+sudo apt-get install jenkins
 
 install_docker() {
 
@@ -102,3 +112,13 @@ sudo apt-get install helm
 
 helm repo add grafana https://grafana.github.io/helm-charts
 helm repo update
+
+echo "vm.max_map_count=524288" | sudo tee -a /etc/sysctl.conf
+echo "fs.file-max=131072" | sudo tee -a /etc/sysctl.conf
+
+sudo sysctl -p
+
+echo "* soft nofile 131072" | sudo tee -a /etc/security/limits.conf
+echo "* hard nofile 131072" | sudo tee -a /etc/security/limits.conf
+echo "* soft nproc 8192" | sudo tee -a /etc/security/limits.conf
+echo "* hard nproc 8192" | sudo tee -a /etc/security/limits.conf
