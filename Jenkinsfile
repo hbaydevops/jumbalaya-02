@@ -34,7 +34,7 @@ pipeline {
             }
         }
 
-        /*
+        
         stage('Login') {
             steps {
                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
@@ -44,12 +44,12 @@ pipeline {
         stage('Build Image') {
             steps {
                 sh '''
-                cd ${WORKSPACE}/cart
-                docker build -t devopseasylearning/s7yusuff_do_it_yourself_cart:001 .
+                cd ${WORKSPACE}/demo-project
+                docker build -t thejurist/demo_project:001 .
                 '''
             }
         }
-        */
+        
     }
 
     post {
