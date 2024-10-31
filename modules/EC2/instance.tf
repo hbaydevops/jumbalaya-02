@@ -23,10 +23,13 @@
 
 resource "aws_instance" "servers" {
   count                  = 2  
-  ami                    = count.index == 0 ? data.aws_ami.my_existing_ami.id : data.aws_ami.ubuntu.id
+  ami                    = count.index == 0 ? data.aws_ami.ubuntu.id : data.aws_ami.ubuntu.id
   instance_type          = count.index == 0 ? "t2.medium" : var.instance_type
   key_name               = var.key_name
   vpc_security_group_ids = [data.aws_security_group.existing_sg.id]
+  root_block_device {
+    volume_size = count.index == 0 ? 30 : null 
+  }
 
   # user_data = <<-EOF
   #             #!/bin/bash
@@ -37,7 +40,7 @@ resource "aws_instance" "servers" {
   #             }
   # EOF
 
-  #user_data = count.index == 1 ? file("${path.module}/scripts/jenkins_slave.sh") : null
+  user_data = count.index == 0 ? file("${path.module}/scripts/custom_server_demo_project.sh") : null
 
   tags = merge(var.common_tags, {
     Name = format("%s-%s-%s-%s", var.common_tags["environment"], var.common_tags["owner"], var.common_tags["project"],

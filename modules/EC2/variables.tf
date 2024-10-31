@@ -28,15 +28,14 @@ variable "key_name" {
   type    = string
   default = "jurist"
 }
-variable "volume_size" {
-  type    = number
-  default = 30
-}
 variable "force_destroy" {
   type    = bool
   default = true
 }
-
+variable "volume_size"{
+  type = number
+  default = 8
+}
 variable "common_tags" {
   type = map(any)
   default = {

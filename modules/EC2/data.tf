@@ -18,14 +18,14 @@ data "aws_security_group" "existing_sg" {
   name = "jurist-group"
 }
 
-data "aws_ami" "my_existing_ami" {
-  most_recent = true
-  owners      = ["self"] # Replace with the owner ID or use "amazon" for official AMIs
+# data "aws_ami" "my_existing_ami" {
+#   most_recent = true
+#   owners      = ["self"] # Replace with the owner ID or use "amazon" for official AMIs
 
-  # Optional filter if looking for a specific AMI name
-  filter {
-    name   = "tag:Name" 
-    values = ["demo-project-instance-*"] # Replace with the name pattern for the AMI
-  }
+#   # Optional filter if looking for a specific AMI name
+#   filter {
+#     name   = "tag:Name" 
+#     values = ["demo-project-instance-*"] # Replace with the name pattern for the AMI
+#   }
 
-}
+# }
