@@ -1,8 +1,8 @@
 pipeline {
     agent any
-    environment {
-		DOCKERHUB_CREDENTIALS=credentials('del-docker-hub-auth')
-	}
+  //   environment {
+	// 	DOCKERHUB_CREDENTIALS=credentials('del-docker-hub-auth')
+	// }
     options {
         buildDiscarder(logRotator(numToKeepStr: '20'))
         disableConcurrentBuilds()
