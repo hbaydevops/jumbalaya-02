@@ -1,19 +1,19 @@
-# Use an official Maven image to build the app
-FROM maven:3.8.4-openjdk-17 AS build
+# Use a lightweight image to build the app
+FROM maven:3.8.4-eclipse-temurin-17-alpine AS build
 
 # Set the working directory in the container
 WORKDIR /app
 
-# Copy the pom.xml file and install dependencies
+# Copy pom.xml and download dependencies to cache them in a separate layer
 COPY pom.xml ./
 RUN mvn dependency:go-offline -B
 
-# Copy the source code and build the application with debug logging
+# Copy the source code and build the application without tests
 COPY src ./src
-RUN mvn package -DskipTests -X
+RUN mvn package -DskipTests -q
 
-# Use an official OpenJDK runtime as the base image for running the application
-FROM openjdk:17-jdk-slim
+# Use a smaller JDK runtime for the final image
+FROM eclipse-temurin:17-jre-alpine
 
 # Set the working directory in the container
 WORKDIR /app
@@ -26,3 +26,4 @@ EXPOSE 8080
 
 # Run the application
 ENTRYPOINT ["java", "-jar", "/app/demo.jar"]
+
