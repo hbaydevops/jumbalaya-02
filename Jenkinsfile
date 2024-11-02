@@ -28,11 +28,11 @@ pipeline {
             }
             environment {
                 CI = 'true'
-                scannerHome = '/opt/sonar-demo-project'
+                scannerHome = '/opt/sonar-scanner'
             }
             steps {
                 withSonarQubeEnv('sonar') {
-                    sh "${scannerHome}/bin/sonar-demo-project"
+                    sh "${scannerHome}/bin/sonar-scanner"
                 }
             }
         }
@@ -49,7 +49,7 @@ pipeline {
                 sh '''
                 cd ${WORKSPACE}/demo-project
                 docker build -t thejurist/demo_project:001 .
-                
+                docker push thejurist/demo_project:001
                 '''
             }
         }
