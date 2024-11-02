@@ -49,7 +49,6 @@ pipeline {
                 sh '''
                 cd ${WORKSPACE}/demo-project
                 docker build -t thejurist/demo_project:001 .
-                
                 '''
             }
         }
