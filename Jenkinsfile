@@ -1,5 +1,8 @@
 pipeline {
     agent any
+        environment {
+		DOCKERHUB_CREDENTIALS=credentials('docker-hub-auth')
+	}
     options {
         buildDiscarder(logRotator(numToKeepStr: '20'))
         disableConcurrentBuilds()
@@ -41,15 +44,24 @@ pipeline {
             }
         }
 
-        stage('Build Image') {
+        stage('Build+push Image') {
             steps {
                 sh '''
                 cd ${WORKSPACE}/demo-project
                 docker build -t thejurist/demo_project:001 .
+                
                 '''
             }
         }
-        
+        //         stage('Build+push Image') {
+        //     steps {
+        //         sh '''
+        //         cd ${WORKSPACE}/demo-project
+        //         docker build -t thejurist/demo_project:001 .
+        //         docker push thejurist/demo_project:001
+        //         '''
+        //     }
+        // }
     }
 
     post {

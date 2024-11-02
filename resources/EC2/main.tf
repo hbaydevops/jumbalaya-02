@@ -17,6 +17,8 @@ provider "aws" {
 
 locals {
   aws_region = "us-east-2"
+  instance_type = "t2.medium"
+  volume_size = 30
 
   common_tags = {
     "id"             = "2024"
@@ -34,5 +36,7 @@ module "EC2" {
   source      = "../../modules/EC2"
   aws_region  = local.aws_region
   common_tags = local.common_tags
+  instance_type = local.instance_type
+  volume_size = local.volume_size
 
 }
