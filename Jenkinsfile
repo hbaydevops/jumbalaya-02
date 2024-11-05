@@ -66,6 +66,7 @@ stage('Update Image Tag in Helm Repo for ArgoCD') {
         git config user.name "Djurizt"
         git add ./chart/values.yaml
         git commit -m "Update image tag to ${IMAGE_TAG}"
+        git remote set-url origin https://github.com/DEL-ORG/s7yusuff-demo-project.git
         git push origin prod
         '''
     }
