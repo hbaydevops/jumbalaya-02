@@ -58,23 +58,16 @@ stage('Update Image Tag in Helm Repo for ArgoCD') {
     steps {
         // Check out the main branch or the desired branch
         sh '''
-        git fetch origin
-        git checkout prod || git checkout -b prod
-        '''
-
-        // Update the values.yaml file with the new Docker image tag
-        sh """
-        sed -i 's/tag:.*/tag: ${IMAGE_TAG}/' ./demo-project/chart/values.yaml
-        """
-
-        // Commit and push the changes
-        sh """
+        rm -rf s7yusuff-demo-project || true
+        git clone  -b prod https://github.com/DEL-ORG/s7yusuff-demo-project.git
+        cd ${WORKSPACE}/s7yusuff-demo-project/demo-project
+        sed -i 's/tag:.*/tag: ${IMAGE_TAG}/' ./chart/values.yaml
         git config user.email "gbebejunior@gmail.com"
         git config user.name "Djurizt"
-        git add ./demo-project/chart/values.yaml
+        git add ./chart/values.yaml
         git commit -m "Update image tag to ${IMAGE_TAG}"
         git push origin prod
-        """
+        '''
     }
 }
 
