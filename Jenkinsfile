@@ -2,6 +2,7 @@ pipeline {
     agent any
     environment {
         DOCKERHUB_CREDENTIALS = credentials('docker-hub-auth')
+        IMAGE_TAG = "V1.0.${BUILD_NUMBER}"  // Set the image tag as an environment variable
     }
     options {
         buildDiscarder(logRotator(numToKeepStr: '20'))
@@ -45,13 +46,10 @@ pipeline {
 
         stage('Build+push Image') {
             steps {
-                script {
-                    def imageTag = "V1.0.${BUILD_NUMBER}"
-                }
                 sh """
                 cd ${WORKSPACE}/demo-project
-                docker build -t thejurist/demo_project:${imageTag} .
-                docker push thejurist/demo_project:${imageTag}
+                docker build -t thejurist/demo_project:${IMAGE_TAG} .
+                docker push thejurist/demo_project:${IMAGE_TAG}
                 """
             }
         }
@@ -60,7 +58,7 @@ pipeline {
             steps {
                 // Update the values.yaml file with the new Docker image tag
                 sh """
-                sed -i 's/tag:.*/tag: ${imageTag}/' ./demo-project/chart/values.yaml
+                sed -i 's/tag:.*/tag: ${IMAGE_TAG}/' ./demo-project/chart/values.yaml
                 """
 
                 // Commit and push the changes
@@ -68,7 +66,7 @@ pipeline {
                 git config user.email "gbebejunior@gmail.com"
                 git config user.name "Djurizt"
                 git add ./demo-project/chart/values.yaml
-                git commit -m "Update image tag to ${imageTag}"
+                git commit -m "Update image tag to ${IMAGE_TAG}"
                 git push origin main
                 """
             }
