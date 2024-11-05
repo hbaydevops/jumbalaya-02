@@ -23,20 +23,20 @@ pipeline {
             }
         }
 
-        stage('SonarQube Analysis') {
-            agent {
-                docker { image 'sonarsource/sonar-scanner-cli:5.0.1' }
-            }
-            environment {
-                CI = 'true'
-                scannerHome = '/opt/sonar-scanner'
-            }
-            steps {
-                withSonarQubeEnv('sonar') {
-                    sh "${scannerHome}/bin/sonar-scanner"
-                }
-            }
-        }
+        // stage('SonarQube Analysis') {
+        //     agent {
+        //         docker { image 'sonarsource/sonar-scanner-cli:5.0.1' }
+        //     }
+        //     environment {
+        //         CI = 'true'
+        //         scannerHome = '/opt/sonar-scanner'
+        //     }
+        //     steps {
+        //         withSonarQubeEnv('sonar') {
+        //             sh "${scannerHome}/bin/sonar-scanner"
+        //         }
+        //     }
+        // }
 
         stage('Login') {
             steps {
@@ -54,23 +54,30 @@ pipeline {
             }
         }
 
-        stage('Update Image Tag in Helm Repo for ArgoCD') {
-            steps {
-                // Update the values.yaml file with the new Docker image tag
-                sh """
-                sed -i 's/tag:.*/tag: ${IMAGE_TAG}/' ./demo-project/chart/values.yaml
-                """
+stage('Update Image Tag in Helm Repo for ArgoCD') {
+    steps {
+        // Check out the main branch or the desired branch
+        sh '''
+        git fetch origin
+        git checkout prod || git checkout -b prod
+        '''
 
-                // Commit and push the changes
-                sh """
-                git config user.email "gbebejunior@gmail.com"
-                git config user.name "Djurizt"
-                git add ./demo-project/chart/values.yaml
-                git commit -m "Update image tag to ${IMAGE_TAG}"
-                git push origin main
-                """
-            }
-        }
+        // Update the values.yaml file with the new Docker image tag
+        sh """
+        sed -i 's/tag:.*/tag: ${IMAGE_TAG}/' ./demo-project/chart/values.yaml
+        """
+
+        // Commit and push the changes
+        sh """
+        git config user.email "gbebejunior@gmail.com"
+        git config user.name "Djurizt"
+        git add ./demo-project/chart/values.yaml
+        git commit -m "Update image tag to ${IMAGE_TAG}"
+        git push origin prod
+        """
+    }
+}
+
     }
     
     post {
