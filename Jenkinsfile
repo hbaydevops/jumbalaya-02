@@ -23,28 +23,13 @@ pipeline {
             }
         }
 
-        // stage('SonarQube Analysis') {
-        //     agent {
-        //         docker { image 'sonarsource/sonar-scanner-cli:5.0.1' }
-        //     }
-        //     environment {
-        //         CI = 'true'
-        //         scannerHome = '/opt/sonar-scanner'
-        //     }
-        //     steps {
-        //         withSonarQubeEnv('sonar') {
-        //             sh "${scannerHome}/bin/sonar-scanner"
-        //         }
-        //     }
-        // }
-
         stage('Login') {
             steps {
                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
             }
         }
 
-        stage('Build+push Image') {
+        stage('Build and Push Image') {
             steps {
                 sh """
                 cd ${WORKSPACE}/demo-project
@@ -54,22 +39,22 @@ pipeline {
             }
         }
 
-stage('Update Image Tag in Helm Repo for ArgoCD') {
-    steps {
-        // Check out the main branch or the desired branch
-        sh '''
-        rm -rf s7yusuff-demo-project || true
-        git clone -b prod git@github.com:DEL-ORG/s7yusuff-demo-project.git
-        cd ${WORKSPACE}/s7yusuff-demo-project/demo-project
-        sed -i 's/tag:.*/tag: ${IMAGE_TAG}/' ./chart/values.yaml
-        git config user.email "gbebejunior@gmail.com"
-        git config user.name "Djurizt"
-        git add ./chart/values.yaml
-        git commit -m "Update image tag to ${IMAGE_TAG}"
-        git push origin prod
-        '''
+        stage('Update Image Tag in Helm Repo for ArgoCD') {
+            steps {
+                sh """
+                rm -rf s7yusuff-demo-project || true
+                git clone -b prod git@github.com:DEL-ORG/s7yusuff-demo-project.git
+                cd ${WORKSPACE}/s7yusuff-demo-project/demo-project
+                sed -i 's/tag:.*/tag: ${IMAGE_TAG}/' ./chart/values.yaml
+                git config user.email "gbebejunior@gmail.com"
+                git config user.name "Djurizt"
+                git add ./chart/values.yaml
+                git commit -m "Update image tag to ${IMAGE_TAG}"
+                git push origin prod
+                """
+            }
+        }
     }
-}
     post {
         success {
             echo "Image built, pushed, and ArgoCD will automatically deploy the new version."
@@ -78,5 +63,4 @@ stage('Update Image Tag in Helm Repo for ArgoCD') {
             echo "Deployment failed!"
         }
     }
-}
 }
