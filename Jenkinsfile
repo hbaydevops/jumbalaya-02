@@ -62,8 +62,6 @@ stage('Update Image Tag in Helm Repo for ArgoCD') {
         git clone  -b prod https://github.com/DEL-ORG/s7yusuff-demo-project.git
         cd ${WORKSPACE}/s7yusuff-demo-project/demo-project
         sed -i 's/tag:.*/tag: ${IMAGE_TAG}/' ./chart/values.yaml
-        git config user.email "gbebejunior@gmail.com"
-        git config user.name "Djurizt"
         git add ./chart/values.yaml
         git commit -m "Update image tag to ${IMAGE_TAG}"
         git remote set-url origin git@github.com:DEL-ORG/s7yusuff-demo-project.git
