@@ -1,8 +1,8 @@
 pipeline {
     agent any
-        environment {
-		DOCKERHUB_CREDENTIALS=credentials('docker-hub-auth')
-	}
+    environment {
+        DOCKERHUB_CREDENTIALS = credentials('docker-hub-auth')
+    }
     options {
         buildDiscarder(logRotator(numToKeepStr: '20'))
         disableConcurrentBuilds()
@@ -37,7 +37,6 @@ pipeline {
             }
         }
 
-        
         stage('Login') {
             steps {
                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
@@ -46,20 +45,22 @@ pipeline {
 
         stage('Build+push Image') {
             steps {
-                sh '''
+                script {
+                    def imageTag = "V1.0.${BUILD_NUMBER}"
+                }
+                sh """
                 cd ${WORKSPACE}/demo-project
-                docker build -t thejurist/demo_project:${BUILD_NUMBER} .
-                docker push thejurist/demo_project:${BUILD_NUMBER}
-                '''
+                docker build -t thejurist/demo_project:${imageTag} .
+                docker push thejurist/demo_project:${imageTag}
+                """
             }
         }
 
-    }
         stage('Update Image Tag in Helm Repo for ArgoCD') {
             steps {
                 // Update the values.yaml file with the new Docker image tag
                 sh """
-                sed -i 's/tag:.*/tag: ${IMAGE_TAG}/' ./demo-project/chart/values.yaml
+                sed -i 's/tag:.*/tag: ${imageTag}/' ./demo-project/chart/values.yaml
                 """
 
                 // Commit and push the changes
@@ -67,11 +68,12 @@ pipeline {
                 git config user.email "gbebejunior@gmail.com"
                 git config user.name "Djurizt"
                 git add ./demo-project/chart/values.yaml
-                git commit -m "Update image tag to ${IMAGE_TAG}"
+                git commit -m "Update image tag to ${imageTag}"
                 git push origin main
                 """
             }
         }
+    }
     
     post {
         success {
