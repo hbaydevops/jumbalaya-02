@@ -79,3 +79,4 @@ stage('Update Image Tag in Helm Repo for ArgoCD') {
         }
     }
 }
+}
