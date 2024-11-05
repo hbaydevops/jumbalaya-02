@@ -12,7 +12,7 @@ pipeline {
     stages {
         stage('Testing') {
             agent {
-                docker { image 'maven:3.8.7-openjdk-18' }
+                docker { image 'maven:3.8.4-eclipse-temurin-17-alpine' }
             }
             steps {
                 sh '''
@@ -48,34 +48,37 @@ pipeline {
             steps {
                 sh '''
                 cd ${WORKSPACE}/demo-project
-                docker build -t thejurist/demo_project:001 .
-                docker push thejurist/demo_project:001
+                docker build -t thejurist/demo_project:${BUILD_NUMBER} .
+                docker push thejurist/demo_project:${BUILD_NUMBER}
                 '''
             }
         }
-        //         stage('Build+push Image') {
-        //     steps {
-        //         sh '''
-        //         cd ${WORKSPACE}/demo-project
-        //         docker build -t thejurist/demo_project:001 .
-        //         docker push thejurist/demo_project:001
-        //         '''
-        //     }
-        // }
-    }
 
+    }
+        stage('Update Image Tag in Helm Repo for ArgoCD') {
+            steps {
+                // Update the values.yaml file with the new Docker image tag
+                sh """
+                sed -i 's/tag:.*/tag: ${IMAGE_TAG}/' ./demo-project/chart/values.yaml
+                """
+
+                // Commit and push the changes
+                sh """
+                git config user.email "gbebejunior@gmail.com"
+                git config user.name "Djurizt"
+                git add ./demo-project/chart/values.yaml
+                git commit -m "Update image tag to ${IMAGE_TAG}"
+                git push origin main
+                """
+            }
+        }
+    
     post {
         success {
-            slackSend(channel: '#development-alerts', color: 'good', message: "SUCCESSFUL: Application s7yusuff-do-it-yourself-Cart Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
-        }
-        unstable {
-            slackSend(channel: '#development-alerts', color: 'warning', message: "UNSTABLE: Application s7yusuff-do-it-yourself-Cart Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+            echo "Image built, pushed, and ArgoCD will automatically deploy the new version."
         }
         failure {
-            slackSend(channel: '#development-alerts', color: '#FF0000', message: "FAILURE: Application s7yusuff-do-it-yourself-Cart Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
-        }
-        cleanup {
-            deleteDir()
+            echo "Deployment failed!"
         }
     }
 }
