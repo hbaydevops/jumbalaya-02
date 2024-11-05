@@ -64,7 +64,7 @@ stage('Update Image Tag in Helm Repo for ArgoCD') {
         sed -i 's/tag:.*/tag: ${IMAGE_TAG}/' ./chart/values.yaml
         git config user.email "gbebejunior@gmail.com"
         git config user.name "Djurizt"
-        git add ./demo-project/chart/values.yaml
+        git add ./chart/values.yaml
         git commit -m "Update image tag to ${IMAGE_TAG}"
         git push origin prod
         '''
