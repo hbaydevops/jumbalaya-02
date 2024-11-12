@@ -3,7 +3,7 @@ replicaCount: 2
 image:
   repository: thejurist/demo_project   # Your Docker Hub repository
   pullPolicy: IfNotPresent
-  tag: "latest"  # Replace this with dynamic image tags during deployment
+  tag: V1.0.4
 
 service:
   type: ClusterIP
