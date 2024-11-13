@@ -18,6 +18,7 @@ cleanup_terraform() {
             find "$REPO_ROOT/$dir" -type d -name '.terraform' -exec rm -rf {} +
             find "$REPO_ROOT/$dir" -type f -name 'terraform.tfstate' -exec rm -f {} +
             find "$REPO_ROOT/$dir" -type f -name 'terraform.tfstate.backup' -exec rm -f {} +
+            find "$REPO_ROOT/$dir" -type f -name '.terraform.lock.hcl' -exec rm -f {} +
         else
             echo "Directory $REPO_ROOT/$dir does not exist, skipping."
         fi
