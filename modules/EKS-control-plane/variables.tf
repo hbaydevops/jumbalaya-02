@@ -1,5 +1,3 @@
-
-
 variable "aws_region" {
   type = string
 }
@@ -9,7 +7,7 @@ variable "cluster_name" {
 }
 
 variable "eks_version" {
-  type = string
+  type = number
 }
 
 variable "endpoint_private_access" {
@@ -20,25 +18,11 @@ variable "endpoint_public_access" {
   type = bool
 }
 
-variable "public_subnets" {
+variable "eks_subnet_ids" {
   type = map(string)
-  default = {
-    us-east-2a = "subnet-0ebbd1751fb00c957"
-    us-east-2b = "subnet-0ffe054defef01d13"
-    us-east-2c = "subnet-0306d57d9ddb7b080"
-  }
 }
 
 variable "common_tags" {
   type = map(any)
-  default = {
-    "id"             = "2024"
-    "name"           = "demo-project-cluster"
-    "owner"          = "jurist"
-    "environment"    = "dev"
-    "project"        = "blueops"
-    "create_by"      = "Terraform"
-    "cloud_provider" = "aws"
-    "company"        = "DEL"
-  }
+ 
 }

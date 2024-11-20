@@ -1,12 +1,12 @@
 resource "aws_eks_node_group" "nodes-group" {
-  cluster_name    = format("%s-%s-%s-cluster", var.common_tags["environment"], var.common_tags["owner"], var.common_tags["project"])
+  cluster_name    = format("%s-%s-%s-control-plane", var.common_tags["environment"], var.common_tags["owner"], var.common_tags["project"])
   node_group_name = format("%s-%s-%s-nodegroup", var.common_tags["environment"], var.common_tags["owner"], var.common_tags["project"])
   node_role_arn   = aws_iam_role.nodes.arn
 
   version = var.eks_version
 
-  subnet_ids = values(var.public_subnets)
-  #   subnet_ids = values(var.private_subnets)
+  subnet_ids = values(var.eks_subnet_ids)
+  #   subnet_ids = values(var.eks_subnet_ids)
 
   capacity_type = var.capacity_type
   ami_type      = var.ami_type
