@@ -19,3 +19,12 @@ data "aws_subnets" "default_public" {
   }
 }
 
+data "aws_eks_cluster_auth" "eks" {
+    depends_on = [aws_eks_cluster.eks]
+  name = "dev-jurist-blueops-control-plane"
+}
+
+data "aws_eks_cluster" "eks" {
+    depends_on = [aws_eks_cluster.eks]
+  name = "dev-jurist-blueops-control-plane"
+}

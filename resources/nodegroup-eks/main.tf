@@ -17,7 +17,7 @@ provider "aws" {
 
 locals {
   aws_region   = "us-east-2"
-  cluster_name = "dev-jurist-blueops-cluster"
+  cluster_name = "dev-jurist-blueops-control-plane"
   eks_version  = "1.31"
   node_min     = "1"
   desired_node = "1"
@@ -25,6 +25,7 @@ locals {
 
   key_pair                  = "jurist"
   deployment_nodegroup      = "blue_green"
+  blue_node_color           = "blue"
   capacity_type             = "ON_DEMAND"
   ami_type                  = "AL2_x86_64"
   instance_types            = "t3.small"
@@ -33,7 +34,6 @@ locals {
   enable_cluster_autoscaler = true
   common_tags = {
     "id"             = "2024"
-    "name"           = "demo-project-nodegroup"
     "owner"          = "jurist"
     "environment"    = "dev"
     "project"        = "blueops"
@@ -42,7 +42,7 @@ locals {
     "company"        = "DEL"
   }
 
-  public_subnets = {
+  eks_subnets_ids = {
     us-east-2a = "subnet-0ebbd1751fb00c957"
     us-east-2b = "subnet-0ffe054defef01d13"
     us-east-2c = "subnet-0306d57d9ddb7b080"
@@ -53,12 +53,13 @@ module "Nodegroup" {
   aws_region                = local.aws_region
   cluster_name              = local.cluster_name
   eks_version               = local.eks_version
-  public_subnets            = local.public_subnets
   node_min                  = local.node_min
   desired_node              = local.desired_node
   node_max                  = local.node_max
+  eks_subnets_ids           = local.eks_subnets_ids
   key_pair                  = local.key_pair
   deployment_nodegroup      = local.deployment_nodegroup
+  blue_node_color           = local.blue_node_color
   capacity_type             = local.capacity_type
   ami_type                  = local.ami_type
   instance_types            = local.instance_types

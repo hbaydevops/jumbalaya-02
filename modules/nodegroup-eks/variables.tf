@@ -50,7 +50,7 @@ variable "shared_owned" {
 variable "enable_cluster_autoscaler" {
   type = bool
 }
-variable "eks_subnet_ids" {
+variable "eks_subnets_ids" {
   type = map(string)
 }
 

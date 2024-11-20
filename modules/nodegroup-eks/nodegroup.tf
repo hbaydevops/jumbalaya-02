@@ -5,7 +5,7 @@ resource "aws_eks_node_group" "nodes-group" {
 
   version = var.eks_version
 
-  subnet_ids = values(var.eks_subnet_ids)
+  subnet_ids = values(var.eks_subnets_ids)
   #   subnet_ids = values(var.eks_subnet_ids)
 
   capacity_type = var.capacity_type
