@@ -9,5 +9,5 @@ common_tags = {
     "project"        = "demo-project"
     "create_by"      = "Terraform"
     "cloud_provider" = "aws"
-    "company" = "DEL"
+    "company"        = "DEL"
   }

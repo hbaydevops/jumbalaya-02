@@ -4,6 +4,7 @@
 **/.terraform/*
 */**/.terraform
 */**/.terraform.lock.hcl
+*.tfvars
 
 # Terragrunt files and directories
 */**/.terragrunt-cache/
