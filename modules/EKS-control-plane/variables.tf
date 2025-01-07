@@ -6,13 +6,6 @@ variable "cluster_name" {
   type = string
 }
 
-variable "role_arn" {
-  type = string
-}
-
-variable "user_arn" {
-  type = string
-}
 variable "eks_version" {
   type = number
 }

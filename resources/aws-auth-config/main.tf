@@ -12,7 +12,8 @@ terraform {
 locals {
   aws_region         = "us-east-2"
   control_plane_name = "dev-jurist-blueops-control-plane"
-  user_arn = "arn:aws:iam::713881795316:role/dev-jurist-blueops-eks-control-plane-role"
+  role_arn = "arn:aws:iam::713881795316:role/dev-jurist-blueops-eks-control-plane-role"
+  user_arn =  "arn:aws:iam::713881795316:user/IT"
   common_tags = {
     "id"             = "2024"
     "owner"          = "jurist"
@@ -27,7 +28,8 @@ locals {
 module "aws-auth-config" {
   source             = "../../modules/aws-auth-config"
   aws_region         = local.aws_region
-  user_arn = local.user_arn
+  user_arn           = local.user_arn
+  role_arn           = local.role_arn
   control_plane_name = local.control_plane_name
   common_tags = local.common_tags
 }
