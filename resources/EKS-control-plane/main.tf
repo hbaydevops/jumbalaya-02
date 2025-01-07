@@ -16,8 +16,6 @@ provider "aws" {
 locals {
 aws_region              = "us-east-2"
 cluster_name            = "dev-jurist-blueops-control-plane"
-role_arn = "arn:aws:iam::713881795316:role/dev-jurist-blueops-eks-control-plane-role"
-user_arn =  "arn:aws:iam::713881795316:user/IT"
 eks_version             = 1.31
 endpoint_private_access = false
 endpoint_public_access  = true
@@ -40,8 +38,6 @@ module "EKS" {
   source                  = "../../modules/EKS-control-plane"
   aws_region              = local.aws_region
   common_tags             = local.common_tags
-  role_arn = local.role_arn
-  user_arn =  local.user_arn
   cluster_name            = local.cluster_name
   eks_version             = local.eks_version
   eks_subnet_ids          = local.eks_subnet_ids
