@@ -7,6 +7,9 @@ variable "control_plane_name" {
 variable "user_arn" {
   type    = string
 }
+variable "username" {
+  type    = string
+}
 variable "role_arn" {
   type    = string
 }

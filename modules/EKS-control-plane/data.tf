@@ -4,6 +4,9 @@ data "tls_certificate" "openid" {
 data "aws_iam_policy" "amazon_eks_cluster_policy" {
   name = "AmazonEKSClusterPolicy"
 }
+data "aws_iam_policy" "eks_vpc_resource_controller" {
+  name = "AmazonEKSVPCResourceController"
+}
 
 
 data "aws_subnets" "default_public" {
