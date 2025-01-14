@@ -1,5 +1,6 @@
 apiVersion: v2
 name: demo-app
-description: A Helm chart for deploying the demo Java application
 version: 0.1.0
-appVersion: "1.0"  # Optional - can match the Docker image version
+description: Helm chart for deploying the demo application
+
+dependencies: []
