@@ -7,4 +7,4 @@
         - ReadWriteOnce
       resources:
         requests:
-        storage: {{ .Values.storage.size }}
+          storage: {{ .Values.storage.size }}
