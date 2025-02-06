@@ -1,6 +1,6 @@
 variable "aws_region" {
   type    = string
-  default = "us-east-2"
+  default = "us-east-1"
 }
 variable "docker_script" {
   type = string
@@ -26,7 +26,7 @@ variable "instance_type" {
 }
 variable "key_name" {
   type    = string
-  default = "jurist"
+  default = "jenkins-master-slave-sonar"
 }
 variable "force_destroy" {
   type    = bool
@@ -34,16 +34,16 @@ variable "force_destroy" {
 }
 variable "volume_size"{
   type = number
-  default = 8
+  default = 30
 }
 variable "common_tags" {
   type = map(any)
   default = {
     "id"             = "2024"
-    "name"           = "blueops-ec2"
-    "owner"          = "jurist"
+    "name"           = "jumbalaya-ec2"
+    "owner"          = "Helene"
     "environment"    = "dev"
-    "project"        = "blueops"
+    "project"        = "jumbalaya"
     "create_by"      = "Terraform"
     "cloud_provider" = "aws"
     "company"        = "DEL"

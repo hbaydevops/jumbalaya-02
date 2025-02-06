@@ -1,9 +1,9 @@
 name: demo-app
-namespace: s7yusuff
+namespace: a1helene
 replicaCount: 2
 
 image:
-  repository: thejurist/demo_project
+  repository: hbaydocker2/jumbalaya-image
   pullPolicy: IfNotPresent
   tag: V1.0.5
 

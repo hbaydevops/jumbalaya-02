@@ -15,7 +15,7 @@ data "aws_ami" "ubuntu" {
 }
 
 data "aws_security_group" "existing_sg" {
-  name = "jurist-group"
+  name = "jenkins-master-slave-sonar"
 }
 
 # data "aws_ami" "my_existing_ami" {
@@ -25,7 +25,7 @@ data "aws_security_group" "existing_sg" {
 #   # Optional filter if looking for a specific AMI name
 #   filter {
 #     name   = "tag:Name" 
-#     values = ["demo-project-instance-*"] # Replace with the name pattern for the AMI
+#     values = ["jumbalaya-instance-*"] # Replace with the name pattern for the AMI
 #   }
 
 # }

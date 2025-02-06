@@ -21,7 +21,7 @@
 #   user_data = count.index == 0 ? file("${path.module}/scripts/custom_server_demo_project.sh") : null
 
 #   tags = merge(var.common_tags, {
-#     Name = format("%s-%s-%s-%s", var.common_tags["environment"], var.common_tags["owner"], var.common_tags["project"],
+#     Name = format("%s-%s-%s-${var.instance_name}", var.common_tags["environment"], var.common_tags["project"],
 #     count.index == 0 ? "main-server" : "jenkins-slave")
 #   })
 # }
@@ -40,7 +40,7 @@ resource "aws_instance" "servers" {
   user_data = file("${path.module}/scripts/custom_server_demo_project.sh") 
 
   tags = merge(var.common_tags, {
-    Name = format("%s-%s-%s-%s", var.common_tags["environment"], var.common_tags["owner"], var.common_tags["project"],
+    Name = format("%s-%s-%s", var.common_tags["environment"], var.common_tags["project"],
      "main-server")
   })
 }

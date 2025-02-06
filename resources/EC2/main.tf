@@ -16,16 +16,16 @@ provider "aws" {
 
 
 locals {
-  aws_region = "us-east-2"
+  aws_region = "us-east-1"
   instance_type = "t2.medium"
   volume_size = 30
 
   common_tags = {
-    "id"             = "2024"
-    "name"           = "demo-project-ec2"
-    "owner"          = "jurist"
+    "id"             = "2025"
+    "name"           = "jumbalaya-ec2"
+    "owner"          = "Helne"
     "environment"    = "dev"
-    "project"        = "demo-project"
+    "project"        = "jumbalaya"
     "create_by"      = "Terraform"
     "cloud_provider" = "aws"
     "company"        = "DEL"
