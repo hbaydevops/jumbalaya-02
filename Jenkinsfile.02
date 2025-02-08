@@ -23,6 +23,18 @@ pipeline {
         //             withCredentials([usernamePassword(credentialsId: 'github-credentials', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_PASS')]) {
         //                 sh "git clone https://${GIT_USER}:${GIT_PASS}@github.com/hbaydevops/jumbalaya-02"
 
+
+        
+        stage('Login to DockerHub') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: DOCKER_CREDENTIALS_ID, usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                        sh "echo ${DOCKER_PASS} | docker login -u ${DOCKER_USER} --password-stdin"
+                    }
+                }
+            }
+        }
+
         stage('Testing') {
             agent {
                 docker { image 'maven:3.8.4-eclipse-temurin-17-alpine' }
@@ -46,15 +58,6 @@ pipeline {
             }
         }
 
-        stage('Login to DockerHub') {
-            steps {
-                script {
-                    withCredentials([usernamePassword(credentialsId: DOCKER_CREDENTIALS_ID, usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                        sh "echo ${DOCKER_PASS} | docker login -u ${DOCKER_USER} --password-stdin"
-                    }
-                }
-            }
-        }
 
         stage('Push Docker Image') {
             steps {
