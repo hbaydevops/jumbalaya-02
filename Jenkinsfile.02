@@ -6,7 +6,7 @@ pipeline {
         BRANCH = 'main' // Change if needed
         DOCKER_IMAGE = 'hbaydocker2/jumbalaya-image02' // Replace with your Docker Hub username and image name
         IMAGE_TAG = "V1.0.${BUILD_NUMBER}"  // Set the image tag as an environment variable
-        DOCKER_CREDENTIALS_ID = 'jenkins-dockerhub-auth' // Ensure this is stored in Jenkins
+        DOCKER_CREDENTIALS_ID = 'jenkins-docker-auth' // Ensure this is stored in Jenkins
         // DOCKERHUB_CREDENTIALS = credentials('docker-hub-auth')
     }
 
