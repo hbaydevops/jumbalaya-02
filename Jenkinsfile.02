@@ -58,7 +58,7 @@ pipeline {
                     // sh 'mvn clean verify sonar:sonar -Dsonar.login=$SONAR_TOKEN'
 
                     // Run the Maven build with SonarQube analysis
-                        sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=jambalaya-a1helene -Dsonar.login=$SONAR_TOKEN'
+                        sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=jambalaya-a1helena -Dsonar.login=$SONAR_TOKEN'
                 }
             }
         }
