@@ -54,7 +54,7 @@ pipeline {
                     withSonarQubeEnv('SonarQube') {
                         sh '''
                         mvn clean verify sonar:sonar \
-                            -Dsonar.projectKey=jambalaya-a1helena \
+                            -Dsonar.projectKey=jambalaya-a1helene \
                             -Dsonar.host.url=$SONARQUBE_URL \
                             -Dsonar.token=$SONAR_TOKEN
                         '''
